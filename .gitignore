@@ -1,0 +1,15 @@
+.DS_Store
+build
+dependencies.lock
+.cache
+.clangd
+managed_components
+cmake-build-debug*
+sdkconfig.old
+sdkconfig
+**/.idea/workspace.xml
+.vscode
+.direnv
+sdkconfig.wifi
+sdkconfig.network
+flake.lock
