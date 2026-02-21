@@ -1,6 +1,6 @@
 version: "1.0.0"
 description: Board Support Package (BSP) for LilyGo T4 S3
-url: https://github.com/idoc/lilygo-t4-s3
+repository: https://github.com/idoc/lilygo-t4-s3
 
 targets:
   - esp32s3
@@ -10,7 +10,9 @@ tags:
   - lilygo
 
 dependencies:
-  espressif/esp_lvgl_port: ^2.7.0
+  espressif/esp_lvgl_port:
+    version: ^2
+    public: true
 
   idoc/esp_lcd_touch_cst226se:
     version: ^1.0.0

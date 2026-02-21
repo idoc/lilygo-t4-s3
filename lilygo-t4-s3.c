@@ -175,7 +175,7 @@ esp_err_t bsp_display_new(const bsp_display_config_t* config, esp_lcd_panel_hand
         .dc_gpio_num = -1,
         .cs_gpio_num = BSP_LCD_CS,
         .spi_mode = 0,
-        .pclk_hz = BSP_LCD_PIXEL_CLOCK_HZ,
+        .pclk_hz = rm690b0_spi_clock_hz,
         .lcd_cmd_bits = LCD_CMD_BITS,
         .lcd_param_bits = LCD_PARAM_BITS,
         .trans_queue_depth = 10,
@@ -250,8 +250,7 @@ esp_err_t bsp_touch_new(const bsp_touch_config_t* _, esp_lcd_touch_handle_t* ret
     return esp_lcd_touch_new_i2c_cst226se(bsp_i2c_get_handle(), &tp_config, ret_touch);
 }
 
-static void lvgl_round_cb(lv_event_t* e) {
-    lv_area_t* area = lv_event_get_param(e);
+static void lvgl_round_cb(lv_area_t* area) {
     if (area->x1 % 2) {
         area->x1--;
     }
@@ -296,6 +295,7 @@ static lv_display_t* bsp_display_lcd_init(const bsp_display_cfg_t* cfg) {
             .mirror_x = BSP_LCD_MIRROR_X,
             .mirror_y = BSP_LCD_MIRROR_Y,
         },
+        .rounder_cb = lvgl_round_cb,
         .color_format = BSP_LCD_COLOR_FORMAT,
         .flags = {
             .buff_dma = cfg->flags.buff_dma,
@@ -306,7 +306,6 @@ static lv_display_t* bsp_display_lcd_init(const bsp_display_cfg_t* cfg) {
 
     lv_display = lvgl_port_add_disp(&disp_cfg);
     assert(lv_display);
-    lv_display_add_event_cb(lv_display, lvgl_round_cb, LV_EVENT_INVALIDATE_AREA, lv_display);
 
     return lv_display;
 }
